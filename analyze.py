@@ -14,7 +14,7 @@ def main():
     verb_counter = Counter()
     texts_iter = (x.open().read() for x in atl_path.glob('*.txt'))
     for doc in nlp.pipe(texts_iter, disable=['parser', 'ner']):
-        pos_counter.update([t.pos_ for t in doc])
+        pos_counter.update([t.pos_ for t in doc if t.pos_ != 'SPACE'])
 
         adj_counter.update([
             t.lemma_ for t in doc if t.pos_ == 'ADJ'
@@ -28,7 +28,6 @@ def main():
             t.lemma_ for t in doc
             if (t.pos_ in ('VERB', 'AUX') and t.lemma_ != 'ei')
         ])
-
 
     print('POS frequencies:')
     total_tokens = sum(pos_counter.values())
