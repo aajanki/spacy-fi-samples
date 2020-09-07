@@ -7,7 +7,7 @@ from tqdm import tqdm
 
 def main():
     docdir = Path('data/asiantuntijalausunnot/pdf/')
-    outdir = Path('data/asiantuntijalausunnot/text/')
+    outdir = Path('data/asiantuntijalausunnot/text_orig/')
 
     outdir.mkdir(parents=True, exist_ok=True)
 
