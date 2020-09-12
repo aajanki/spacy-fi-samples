@@ -12,13 +12,33 @@ def main():
     print('Cleaning up text')
     for p in tqdm(list(indir.glob('*.txt'))):
         with p.open() as inf:
-            text = dehyphenate(inf.read())
+            text = ignore_number_lines(dehyphenate(inf.read()))
 
         with open(outdir / p.name, 'w') as outf:
             outf.write(text)
 
 
+def ignore_number_lines(text):
+    # Filter out lines that are mostly numbers and punctuation.
+    #
+    # Probably page numbers or dates.
+    return '\n'.join(
+        line for line in text.split('\n')
+        if not is_mostly_numbers_and_punctuation(line))
+
+
+def is_mostly_numbers_and_punctuation(line):
+    n = sum(c.isdigit() or c.isspace() or c in '().,/' for c in line)
+    return len(line) > 0 and n >= len(line)/2
+
+
 def dehyphenate(text):
+    # Merge hyphenated words at the end of a line.
+    #
+    # For example:
+    #
+    # kan-
+    # santalous
     return re.sub(r'([a-zåäöA-ZÅÄÖ0-9])-\n\n?([a-zåäöA-ZÅÄÖ])', merge_hyphenated, text)
 
 
