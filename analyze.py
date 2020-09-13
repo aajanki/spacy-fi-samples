@@ -7,12 +7,24 @@ def main():
     nlp = spacy.load('spacy_fi_experimental_web_md')
 
     atl_path = Path('data/asiantuntijalausunnot/text')
+    print()
+    print('Asiantuntijalausunnot:')
+    print()
+    print_stats(atl_path, nlp)
 
+    blogit_path = Path('data/blogit/text')
+    print()
+    print('Blogit:')
+    print()
+    print_stats(blogit_path, nlp)
+
+
+def print_stats(path, nlp):
     pos_counter = Counter()
     adj_counter = Counter()
     noun_counter = Counter()
     verb_counter = Counter()
-    texts_iter = (x.open().read() for x in atl_path.glob('*.txt'))
+    texts_iter = (x.open().read() for x in path.glob('*.txt'))
     for doc in nlp.pipe(texts_iter, disable=['parser', 'ner']):
         pos_counter.update([t.pos_ for t in doc if t.pos_ != 'SPACE'])
 

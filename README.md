@@ -6,8 +6,7 @@
 pipenv install
 pipenv shell
 
-python scripts/get_asiantuntijalausunnot.py
-python scripts/pdf2txt_asiantuntijalausunnot.py
+scripts/prepare_data.sh
 ```
 
 ## Run
