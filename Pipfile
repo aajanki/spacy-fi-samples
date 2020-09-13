@@ -9,6 +9,7 @@ requests = "*"
 spacy = "*"
 voikko = "*"
 spacy-fi-experimental-web-md = "*"
+seaborn = "*"
 
 [dev-packages]
 
