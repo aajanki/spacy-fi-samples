@@ -1,4 +1,5 @@
 import pandas as pd
+import re
 import seaborn as sns
 import spacy
 from collections import Counter
@@ -24,13 +25,19 @@ def main():
     print('Plots saved in the images directory')
 
 
+def preprocess(path):
+    text = path.open().read()
+    # Normalize all whitespace to single space characters
+    return re.sub(r'[ \n]+', ' ', text)
+
+
 def counts(path, nlp):
     pos_counter = Counter()
     adj_counter = Counter()
     noun_counter = Counter()
     verb_counter = Counter()
-    texts_iter = (x.open().read() for x in path.glob('*.txt'))
-    for doc in nlp.pipe(texts_iter, disable=['parser', 'ner']):
+    texts_iter = (preprocess(x) for x in path.glob('*.txt'))
+    for i, doc in enumerate(nlp.pipe(texts_iter, disable=['parser', 'ner'], batch_size=200)):
         tokens = [t for t in doc if t.pos_ not in ('SPACE', 'PUNCT')]
 
         pos_counter.update([t.pos_ for t in tokens])

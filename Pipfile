@@ -8,10 +8,10 @@ tqdm = "*"
 requests = "*"
 spacy = "*"
 voikko = "*"
-spacy-fi-experimental-web-md = "*"
+spacy-fi-experimental-web-md = ">=0.6.0"
 seaborn = "*"
 
 [dev-packages]
 
 [requires]
-python_version = "3.8"
+python_version = "3.9"
